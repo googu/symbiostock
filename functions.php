@@ -3768,3 +3768,4 @@ require_once ( get_template_directory( ) . '/inc/classes/analytics.php' );
  * Get category template
  */
 require_once(get_template_directory( ) . '/inc/list_categories.php');
+

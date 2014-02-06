@@ -139,8 +139,26 @@ if( $bootstrap_search_menu_type != '' ) {
             //get the search form
                         
             include_once('searchform_symbiostock.php');
-        
-            symbiostock_above_header_nav( );
+        	
+          
+            if(has_nav_menu('above-header-menu')) {
+            	symbiostock_above_header_nav( );
+            }
+            else
+            {
+            	?>
+				<ul class="nav navbar-nav navbar-right" id="menu-test">
+				   
+				<?php 
+				echo symbiostock_customer_nav_links();
+				?>
+				 
+				</ul>
+				<?php 		
+            }
+          
+            
+       
             ?>
             </div>
             </div>
@@ -179,8 +197,47 @@ if( $bootstrap_search_menu_type != '' ) {
             	
                 <div id="main-navigation" class="col-md-12 collapse navbar-collapse"> 
                 
-                <?php symbiostock_header_nav( ); ?>
-
+               
+                <?php     
+		            if(has_nav_menu('above-header-menu')) {
+		            	symbiostock_header_nav( );
+		            }
+		            else
+		            {
+		            	?>
+						<ul class="nav navbar-nav" id="menu-test">
+						   
+						   <li class="menu-item menu-item-type-post_type" id=""><a title="<?php bloginfo('name'); ?>" href="<?php bloginfo('url'); ?>"><i class="icon-home"></i></a></li>
+						   
+						   <li class="menu-item menu-item-type-post_type" id=""><a title="<?php _e('Images', 'symbiostock'); ?>" href="<?php echo get_post_type_archive_link( 'image' ); ?>"><i class="icon-picture"> </i> <?php _e('Images', 'symbiostock'); ?></a></li>
+						   
+						   <li class="menu-item menu-item-type-post_type" id=""><a title="<?php _e('Categories', 'symbiostock'); ?>" href="<?php echo get_permalink( get_option('symbiostock_categories_page', '#'))?>"><i class="icon-sitemap"> </i> <?php _e('Categories', 'symbiostock'); ?></a></li>
+						   						   
+						   <li class="menu-item menu-item-type-post_type" id="">
+						      
+						      <a class="dropdown-toggle" data-toggle="dropdown" href="#" title=""><i class="icon-bookmark"> </i> Symbiostock<span class="caret"></span></a>
+						      
+						      <ul class=" dropdown-menu" role="menu">
+						      
+						         <li class="menu-item menu-item-type-post_type" id=""><a href="http://www.symbiostock.info" title="<?php _e('Search Symbiostock', 'symbiostock'); ?>"><i class="icon-search"> </i> <?php _e('Search Symbiostock', 'symbiostock'); ?></a></li>
+						      
+						         <li class="menu-item menu-item-type-post_type" id=""><a href="http://www.symbiostock.org/community/" title="<?php _e('Symbiostock Community', 'symbiostock'); ?>"><i class="icon-smile"> </i> <?php _e('Community', 'symbiostock'); ?></a></li>
+ 								
+ 								 <li class="menu-item menu-item-type-post_type" id=""><a href="https://twitter.com/symbiostock" title="<?php _e('Symbiostock Twitter', 'symbiostock'); ?>"><i class="icon-twitter"> </i> <?php _e('Symbiostock Twitter', 'symbiostock'); ?></a></li>
+						     						      
+						         <li class="menu-item menu-item-type-post_type" id=""><a href="http://www.symbiostock.org/community/viewforum.php?f=56" title="<?php _e('Symbiostock Documentation', 'symbiostock'); ?>"><i class="icon-book"> </i> <?php _e('Documentation', 'symbiostock'); ?></a></li>
+						      
+						         <li class="menu-item menu-item-type-post_type" id=""><a href="http://www.symbiostock.com/" title="<?php _e('Download Symbiostock', 'symbiostock'); ?>"><i class="icon-download"> </i> <?php _e('Download Symbiostock', 'symbiostock'); ?></a></li>
+						         
+						        <li class="menu-item menu-item-type-post_type" id=""><a href="https://github.com/orangeman555/symbiostock" title="<?php _e('Symbiostock Github', 'symbiostock'); ?>"><i class="icon-github"> </i> <?php _e('Symbiostock Github', 'symbiostock'); ?></a></li>
+						      
+						      </ul>
+						   </li>
+						</ul>
+		            	<?php		            	
+		            }             
+                ?> 
+                
                 <?php                
                 if($top == 0){
                 
@@ -189,7 +246,21 @@ if( $bootstrap_search_menu_type != '' ) {
                 ?>   
                 
                 <?php     
-                symbiostock_above_header_nav( ); 
+		            if(has_nav_menu('above-header-menu')) {
+		            	symbiostock_above_header_nav( );
+		            }
+		            else
+		            {
+						?>
+						<ul class="nav navbar-nav navbar-right" id="menu-test">
+						   
+						<?php 
+						echo symbiostock_customer_nav_links();
+						?>
+						 
+						</ul>
+						<?php 		            
+		            }
                 }
                 ?>   
 
