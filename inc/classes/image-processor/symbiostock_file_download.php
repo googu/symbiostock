@@ -37,8 +37,13 @@ if ( isset( $_POST[ 'download_file' ] ) ) {
     
     //check to see if user has purchased product, or product is free. If so, proceed									
     
-    $symbiostock_categories = get_the_term_list( $file_and_selection[ 0 ], 'image-type' );            	
+    
+    if ( isset( $_POST[ 'symbiostock_current' ] ) ) // called from cart
+	$free_image = false;
+    else {	
+	$symbiostock_categories = get_the_term_list( $file_and_selection[ 0 ], 'image-type' );            	// <<<
 	$free_image = $symbiostock_categories && strpos( $symbiostock_categories, __( 'Symbiostock Free Images', 'symbiostock' ) ) !== false;
+    }	
 
     if ( $free_image || $user_products[ $file_and_selection[ 0 ] ][ 'size_name' ] == $file_and_selection[ 1 ] ) { 		
         
