@@ -2152,7 +2152,7 @@ if ( ! function_exists( 'ajt_get_remote_xml' ) ) {
         curl_setopt( $ch, CURLOPT_TIMEOUT, $timeout );
         curl_setopt( $ch, CURLOPT_REFERER, get_home_url() );
 
-        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
+        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, false );
         curl_setopt( $ch, CURLOPT_URL, $url ); // get the url contents
 
         $data = curl_exec( $ch ); // execute curl request
