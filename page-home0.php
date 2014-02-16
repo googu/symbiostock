@@ -135,7 +135,53 @@ get_header(); ?>
                 endwhile; 
             ?>
             </div>
-            <!-- /Featured Images -->     
+            <!-- /Featured Images -->    
+            
+            <!-- Free Images -->
+            <?php 
+            
+            $free_images_id = get_option('symbiostock_free_images', '');
+            
+            if(!empty($free_images_id)){
+                
+             $args = array(
+            
+            'post_type' => 'image',       
+            'posts_per_page' => 144,
+            'tax_query' => array(
+                array(
+                        'taxonomy' => 'image-type',
+                        'field' => 'id',
+                        'terms' => $free_images_id,
+                        )
+                    )                
+            );
+        
+            } else {
+                            
+                echo '<p>Free Images category does not exist. Has it been deleted? Please re-activate theme and place free images into "Symbiostock Free Images" category.</p>';
+                
+                }
+            $free_home = new WP_Query($args);        
+            ?>
+            <div class="row ss-home-featured">
+            <h3 class="col-md-12"><i class="icon-download"> </i>Free Images</h3>
+            <?php                 
+                while ( $free_home->have_posts() ) : 
+                    $free_home->the_post();                                         
+            ?>
+
+            <div class="col-md-2 ss-home-minipic"> 
+                <a class="thumbnail" title="<?php the_title(); ?>" href="<?php the_permalink(); ?>">
+                    <?php if ( has_post_thumbnail() ) { the_post_thumbnail(  ); } ?>
+                </a> 
+            </div>                    
+
+            <?php
+                endwhile; 
+            ?>
+            </div>
+            <!-- /Free Images -->     
           
             <!-- New Images -->
             <?php     
