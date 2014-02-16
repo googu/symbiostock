@@ -35,14 +35,20 @@ if ( isset( $_POST[ 'download_file' ] ) ) {
     $size_width  = $size_info[ $file_and_selection[ 1 ] ][ 'width' ];
     $size_height = $size_info[ $file_and_selection[ 1 ] ][ 'height' ];
     
-    //check to see if user has purchased product, if so, proceed
+    //check to see if user has purchased product, or product is free. If so, proceed									
     
-    if ( $user_products[ $file_and_selection[ 0 ] ][ 'size_name' ] == $file_and_selection[ 1 ] ) { 
+    $symbiostock_categories = get_the_term_list( $file_and_selection[ 0 ], 'image-type' );            	
+	$free_image = $symbiostock_categories && strpos( $symbiostock_categories, 'Symbiostock Free Images' ) !== false;	
+	
+    if ( $free_image || $user_products[ $file_and_selection[ 0 ] ][ 'size_name' ] == $file_and_selection[ 1 ] ) { 		
         
         $selection = $file_and_selection[ 1 ];
         
-        $type = $user_products[ $file_and_selection[ 0 ] ][ 'type' ];
-            
+		if ( $free_image )																								
+			$type = 'jpg';																								
+		else																											
+			$type = $user_products[ $file_and_selection[ 0 ] ][ 'type' ];
+ 
         //A minor fix in case referenced file does not exist, try for png version
         if (! file_exists ( ABSPATH . 'symbiostock_rf/' . $file_and_selection [0] . '.' . $type )) {
             if (file_exists ( ABSPATH . 'symbiostock_rf/' . $file_and_selection [0] . '.' . 'jpg' )) {
