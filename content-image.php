@@ -116,7 +116,8 @@ do_action( 'ss_before_image_page', $symbiostock_post_meta );
                     <div class="panel-body">
                         <?php 
                         $symbiostock_post_meta['caller_action'] = 'ss_before_img_page_categories';
-                        do_action( 'ss_before_img_page_categories', $symbiostock_post_meta );  
+                        do_action( 'ss_before_img_page_categories', $symbiostock_post_meta );
+                        $free_image = strpos( $symbiostock_categories, 'Symbiostock Free Images' ) !== false; // <--- free image download
                         ?>                                        
                         <?php echo  $symbiostock_categories; ?>
                      
@@ -154,6 +155,28 @@ do_action( 'ss_before_image_page', $symbiostock_post_meta );
     </div>
     <div class="col-md-5">    
         <?php
+		// free image download
+		if ( $free_image ) {
+		
+            global $current_user;
+            get_currentuserinfo();            
+            
+            $file_download_script = WP_CONTENT_URL . '/symbiostock_file_download.php';
+            ?>         		
+			<div class="alert alert-success text-center">
+			  <strong><?php _e( 'Image free for non-commercial use', 'symbiostock' );?></strong><br /><?php 
+			if ( $current_user->ID == 0 ) { 
+				echo '<hr /><strong>';_e( 'You have to be logged-in to get this file', 'symbiostock' ); echo '</strong>';
+			}	
+			else {?>	
+			<form class="" action="<?php echo $file_download_script; ?>" method="post">
+			  <strong><hr /><button class="btn" name="download_file" value="<?php echo $post->ID; ?>_<?php echo get_option('symbiostock_free_image_size', 'medium');?>" type="submit"><i class="icon-download"> </i> <?php _e( 'Get File', 'symbiostock' ); ?></button></strong>
+			  </form>
+			<?php
+			}
+			?></div><?php
+		}
+		
         $symbiostock_post_meta['caller_action'] = 'ss_before_img_page_product_table';
         do_action( 'ss_before_img_page_product_table', $symbiostock_post_meta ); 
         //set up the buying options from cart class
