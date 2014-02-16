@@ -117,7 +117,7 @@ do_action( 'ss_before_image_page', $symbiostock_post_meta );
                         <?php 
                         $symbiostock_post_meta['caller_action'] = 'ss_before_img_page_categories';
                         do_action( 'ss_before_img_page_categories', $symbiostock_post_meta );
-                        $free_image = strpos( $symbiostock_categories, 'Symbiostock Free Images' ) !== false; // <--- free image download
+			$free_image = strpos( $symbiostock_categories, __( 'Symbiostock Free Images', 'symbiostock' ) ) !== false;  // <--- free image download
                         ?>                                        
                         <?php echo  $symbiostock_categories; ?>
                      
