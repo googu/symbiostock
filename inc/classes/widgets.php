@@ -121,6 +121,130 @@ class symbiostock_featured_images extends WP_Widget{
 }
 register_widget( 'symbiostock_featured_images' );
 
+
+class symbiostock_free_images extends WP_Widget{
+    
+    public function __construct() {
+        //widget actual process
+        
+        parent::__construct(
+        
+            'symbiostock_free_images',
+            
+            __('Free Images', 'symbiostock'),
+            
+            array( 'description' => __( 'Symbiostock free images below content area.', 'symbiostock' ) )
+        
+        );
+        
+    }
+        
+    public function form( $instance ) {
+        
+        //outputs the options form on Admin screen
+        
+        $title = (isset( $instance[ 'title' ])) ? $instance[ 'title' ] : __('Free Images', 'symbiostock');
+        
+        ?>
+<p>
+    <label for="<?php echo $this->get_field_id( 'title' ); ?>">
+        <?php _e( 'Title: ', 'symbiostock' ); ?>
+    </label>
+    <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value ="<?php echo esc_attr( $title ); ?>" />
+    <br />
+    <br />
+    <?php _e( 'Symbiostock installs with a <em><strong>Symbiostock Free Images</strong></em> category. Images in this category will show up where this widget is added. 6 images suggested max.', 'symbiostock') ?>
+</p>
+<?php
+                
+        }    
+        
+    public function update( $new_instance, $old_instance ) {
+        
+        //process widget options to be saved
+        
+        $instance = array();
+        
+        $instance['title'] = strip_tags( $new_instance['title'] );
+        
+        return $instance;
+        
+        }
+        
+    public function widget( $args, $instance ){
+        
+        //outputs the content of the widget   
+        
+        
+        extract( $args );
+        
+        $title = apply_filters( 'widget_title', $instance[ 'title' ] );
+        
+        echo $before_widget;
+        
+        if ( !empty( $title ) ) echo $before_title . '<i class="icon-download"> </i> ' . $title . $after_title;
+        
+        $free_images_id = get_option('symbiostock_free_images', '');
+        
+        if(!empty($free_images_id)){
+                
+            $args = array(
+            
+            'post_type' => 'image',
+            'order' => 'asc',                         
+            'posts_per_page' => -1,
+            'caller_get_posts' => 1,
+            'tax_query' => array(
+                array(
+                        'taxonomy' => 'image-type',
+                        'field' => 'id',
+                        'terms' => $free_images_id,
+                        )
+                    )                
+            );
+        
+        } else {
+                        
+            echo __('<p>Free Images category does not exist. Has it been deleted? Please re-activate theme and place free images into "Symbiostock Free Images" category.</p>', 'symbiostock');
+            
+            }
+        $freeWidget = new WP_Query($args);
+        
+        ?>
+<div class="row  ">
+    <?php 
+        
+        while ( $freeWidget->have_posts() ) : 
+            $freeWidget->the_post(); 
+                                
+            ?>
+    <div class="widget-featured symbiostock-featured search-result">
+        <div class="inner-free">
+            <div class="thumb"> 
+                <a title="<?php the_title(); ?>" href="<?php the_permalink(); ?>">
+                    <?php if ( has_post_thumbnail() ) { the_post_thumbnail(  ); } ?>
+                </a> 
+            </div>
+            
+        </div>
+    </div>
+    <?php
+        endwhile;   
+        
+        ?>
+</div>
+<?php 
+        
+        wp_reset_postdata();
+        
+        echo $after_widget; 
+        
+    }
+    
+}
+register_widget( 'symbiostock_free_images' );
+
+
 class symbiostock_latest_images extends WP_Widget{
     
     public function __construct() {
