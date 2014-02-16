@@ -50,6 +50,14 @@ $logo = get_option('symbiostock_logo_link', symbiostock_LOGO  );
 if(empty($logo)){
     update_option('symbiostock_logo_link',  symbiostock_LOGO);
     }
+// size of free image
+if(isset($_POST['symbiostock_free_image_size'])){ update_option('symbiostock_free_image_size', $_POST['symbiostock_free_image_size']); }
+$symbiostock_free_image_size = get_option('symbiostock_free_image_size', 'medium');
+$symbiostock_free_image_size_bloggee = $symbiostock_free_image_size == 'bloggee' ? 'checked="checked"' : ''; 
+$symbiostock_free_image_size_small = $symbiostock_free_image_size == 'small' ? 'checked="checked"' : ''; 
+$symbiostock_free_image_size_medium = $symbiostock_free_image_size == 'medium' ? 'checked="checked"' : ''; 
+$symbiostock_free_image_size_large = $symbiostock_free_image_size == 'large' ? 'checked="checked"' : ''; 
+
 global $current_user;
       get_currentuserinfo();
 ?>
@@ -199,6 +207,28 @@ global $current_user;
             </td>
             
            </tr>
+           
+        <tr>
+        <th scope="row"><?php _e( 'Size of free images', 'symbiostock') ?></th>
+        <td>          
+            <label for="symbiostock_free_image_size_bloggee">
+                <input type="radio" id="symbiostock_free_image_size_bloggee" name="symbiostock_free_image_size" <?php echo $symbiostock_free_image_size_bloggee; ?> value="bloggee" />
+                <?php _e( 'bloggee', 'symbiostock') ?></label>
+            <br />
+            <label for="symbiostock_free_image_size_small">
+                <input type="radio" id="symbiostock_free_image_size_small" name="symbiostock_free_image_size" <?php echo $symbiostock_free_image_size_small; ?> value="small" />
+                <?php _e( 'small', 'symbiostock') ?></label>
+            <br />
+            <label for="symbiostock_free_image_size_medium">
+                <input type="radio" id="symbiostock_free_image_size_medium" name="symbiostock_free_image_size" <?php echo $symbiostock_free_image_size_medium; ?> value="medium" />
+                <?php _e( 'medium', 'symbiostock') ?></label>
+            <br />
+            <label for="symbiostock_free_image_size_large">
+                <input type="radio" id="symbiostock_free_image_size_large" name="symbiostock_free_image_size" <?php echo $symbiostock_free_image_size_large; ?> value="large" />
+                <?php _e( 'large', 'symbiostock') ?></label>
+        </td>
+		</tr>
+           
     
            
         <tr>
