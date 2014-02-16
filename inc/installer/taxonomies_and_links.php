@@ -154,4 +154,26 @@ wp_delete_term( $wrong_name_term->term_id, 'image-type', $args );
 }
 $featured_images_cat = get_term_by('slug', 'symbiostock-featured-images', 'image-type');
 update_option('symbiostock_featured_images', $featured_images_cat->term_id);
+
+//the same for symbiostock free images category
+$wrong_name_term = get_term_by('slug', 'symbiostock-free-images-images', 'image-type');
+wp_delete_term( $wrong_name_term->term_id, 'image-type', $args );
+//make correct free images category and use
+    $parent_term = term_exists( $category, 'image-type' ); // array is returned if taxonomy is given
+    
+    if(!$parent_term){        
+        $free_images_category_id = wp_insert_term(
+            __('Symbiostock Free Images', 'symbiostock'), // the term 
+            'image-type', // the taxonomy
+            array(
+                'description'=> __('Category for Symbiostock Free Images. Used by "Free Images" widget.', 'symbiostock'),
+                'slug' => 'Symbiostock Free Images',
+                'parent'=> $parent_term_id
+            )
+        );
+}
+$free_images_cat = get_term_by('slug', 'symbiostock-free-images', 'image-type');
+update_option('symbiostock_free_images', $free_images_cat->term_id);
+//we have to move our download script to the content directory because sometimes its blocked in themes area 
+copy(symbiostock_CLASSROOT . 'image-processor/symbiostock_file_download.php', WP_CONTENT_DIR . '/symbiostock_file_download.php');
 ?>
