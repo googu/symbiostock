@@ -15,11 +15,17 @@ function symbiostock_content_header( $type )
     
 }
 if ( isset( $_POST[ 'download_file' ] ) ) {
+	
+	
     $parse_path = explode( 'wp-content', dirname( __FILE__ ) );
     require_once( $parse_path[ 0 ] . 'wp-load.php' );   
     //wp-load will give us access to wordpress's info / functions
     require_once( $parse_path[ 0 ] . 'wp-load.php' );    
     
+    
+    //Security: If user is not logged in, abort
+    if ( !is_user_logged_in() )
+    	return;
     
     //set up our variables from post, so we know what we are downloading
     $file_and_selection = explode( '_', $_POST[ 'download_file' ] );
