@@ -20,13 +20,10 @@ if ( isset( $_POST[ 'download_file' ] ) ) {
     //wp-load will give us access to wordpress's info / functions
     require_once( $parse_path[ 0 ] . 'wp-load.php' );    
     
-        
-    //get the user's purchased products
-    $user_products = symbiostock_get_user_files( trim( $_POST[ 'symbiostock_current' ] ) );
     
     //set up our variables from post, so we know what we are downloading
     $file_and_selection = explode( '_', $_POST[ 'download_file' ] );
-    
+	
     //get info of product, so we know size options to deliver
     $product_info = symbiostock_post_meta( $file_and_selection[ 0 ] );
     
@@ -35,18 +32,28 @@ if ( isset( $_POST[ 'download_file' ] ) ) {
     $size_width  = $size_info[ $file_and_selection[ 1 ] ][ 'width' ];
     $size_height = $size_info[ $file_and_selection[ 1 ] ][ 'height' ];
     
-    //check to see if user has purchased product, or product is free. If so, proceed									
+    //check to see if user has purchased product, or product is free. If so, proceed				
     
-    
-    if ( isset( $_POST[ 'symbiostock_current' ] ) ) // called from cart
-	$free_image = false;
-    else {	
-	$symbiostock_categories = get_the_term_list( $file_and_selection[ 0 ], 'image-type' );            	// <<<
-	$free_image = $symbiostock_categories && strpos( $symbiostock_categories, __( 'Symbiostock Free Images', 'symbiostock' ) ) !== false;
-    }	
+    global $current_user;
+    get_currentuserinfo();  
 
-    if ( $free_image || $user_products[ $file_and_selection[ 0 ] ][ 'size_name' ] == $file_and_selection[ 1 ] ) { 		
-        
+    if ( isset( $_POST[ 'symbiostock_current' ] ) ) { // from cart
+	
+		$free_image = false;
+		//get the user's purchased products
+		$user_products = symbiostock_get_user_files( trim( $_POST[ 'symbiostock_current' ] ) );
+		
+	}	
+	else {
+	
+		$symbiostock_categories = get_the_term_list( $file_and_selection[ 0 ], 'image-type' );            
+		$free_image = $current_user->ID != 0 && $symbiostock_categories && strpos( $symbiostock_categories, __( 'Symbiostock Free Images', 'symbiostock' ) ) !== false;
+		
+	}	
+	
+	if ( $free_image || isset( $_POST[ 'symbiostock_current' ] ) && $_POST[ 'symbiostock_current' ] == $current_user->ID &&
+	     $user_products[ $file_and_selection[ 0 ] ][ 'size_name' ] == $file_and_selection[ 1 ] ) { 
+		 	
         $selection = $file_and_selection[ 1 ];
         
 		if ( $free_image )																								
