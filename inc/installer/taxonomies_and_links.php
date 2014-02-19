@@ -139,11 +139,12 @@ update_option('categories_installed', true);
 $wrong_name_term = get_term_by('slug', 'symbiostock-featured-images-images', 'image-type');
 wp_delete_term( $wrong_name_term->term_id, 'image-type', $args );
 //make correct featured images category and use
+    $category = __('Symbiostock Featured Images', 'symbiostock');
     $parent_term = term_exists( $category, 'image-type' ); // array is returned if taxonomy is given
     
     if(!$parent_term){        
         $featured_images_category_id = wp_insert_term(
-            __('Symbiostock Featured Images', 'symbiostock'), // the term 
+            $category, // the term 
             'image-type', // the taxonomy
             array(
                 'description'=> __('Category for Symbiostock Featured Images. Used by "Featured Images" widget.', 'symbiostock'),
@@ -159,11 +160,12 @@ update_option('symbiostock_featured_images', $featured_images_cat->term_id);
 $wrong_name_term = get_term_by('slug', 'symbiostock-free-images-images', 'image-type');
 wp_delete_term( $wrong_name_term->term_id, 'image-type', $args );
 //make correct free images category and use
+    $category = __('Symbiostock Free Images', 'symbiostock');
     $parent_term = term_exists( $category, 'image-type' ); // array is returned if taxonomy is given
     
     if(!$parent_term){        
         $free_images_category_id = wp_insert_term(
-            __('Symbiostock Free Images', 'symbiostock'), // the term 
+            $category, // the term 
             'image-type', // the taxonomy
             array(
                 'description'=> __('Category for Symbiostock Free Images. Used by "Free Images" widget.', 'symbiostock'),
